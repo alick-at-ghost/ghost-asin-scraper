@@ -190,7 +190,7 @@ if uploaded_file is not None:
     final_df = search_amazon(products_df)
 
     # Export the final DataFrame to a new CSV file
-    final_df.to_csv('data/products_with_amazon_searches.csv', index=False)
+    # final_df.to_csv('data/products_with_amazon_searches.csv', index=False)
 
     # Find the best match
     final_df, not_matched_df = match.match_products_with_search(final_df)
@@ -229,7 +229,7 @@ if uploaded_file is not None:
         final_df = pd.concat([final_df, matched_retry_df])
 
     # Export the final DataFrame to a new CSV file
-    final_csv_file_path = 'data/products_matched.csv'
+    # final_csv_file_path = 'data/products_matched.csv'
     final_df = final_df[final_df['is_best_match']
                         == True].drop(columns=['is_best_match'])
 
