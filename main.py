@@ -13,6 +13,7 @@
 # limitations under the License.
 
 import streamlit as st
+import streamlit_ext as ste
 import pandas as pd
 import time
 import utils.llm as llm
@@ -147,11 +148,40 @@ def search_amazon(products_df, search_column='product', return_column='product')
 
 st.title('Ghost ASIN Scraper 👻')
 st.caption('*This tool is used to confirm whether the ASINS/EAN we recieve are accurate. Note this is an internally built solution that may result with inaccurate results. Please use with discretion.*')
+df = pd.DataFrame(
+    {
+        "UPC/EAN": [7340032859966, 7340032860009, 7340032860023],
+        "product": ["Byredo Body cream Blanche - 200 ml", "Byredo Body cream La Tulipe - 200 ml", "Byredo Body cream Mojave Ghost - 200 ml"],
+        "cost": ['$58.00', '$58.00', '$58.00'],
+        
+    }
+)
+st.divider()
+st.subheader('Expected CSV Input Format')
+st.caption('*The CSV you upload should contain these columns.*')
+st.dataframe(df, hide_index=True)
+st.divider()
+
+st.subheader('How to use 📖')
+st.markdown("1. Click open side panel and upload CSV")
+st.markdown("2. Wait for scraper to complete")
+st.markdown("3. Download CSV")
+
+st.markdown('''
+<style>
+[data-testid="stMarkdownContainer"] ul{
+    list-style-position: inside;
+}
+</style>
+''', unsafe_allow_html=True)
+st.divider()
+
 with st.sidebar:
     uploaded_file = st.file_uploader('CSV Uploader')
 
 
 if uploaded_file is not None:
+    st.subheader('Running Scraper 🔁')
 
     # Read the CSV file into a DataFrame
     products_df = pd.read_csv(uploaded_file)
@@ -206,19 +236,18 @@ if uploaded_file is not None:
     # deduplicate any entries in final_df
     final_df = final_df.drop_duplicates(subset=['search_term'], keep='first')
 
+    # cache to prevent computation on rerun
     @st.cache_data
     def convert_df(df):
-        # IMPORTANT: Cache the conversion to prevent computation on every rerun
         return df.to_csv().encode('utf-8')
 
     # convert df to csv
     csv = convert_df(final_df)
 
     # download button
-    st.download_button(
-    "Download CSV",
+    if ste.download_button(
+    "Click to download!",
     csv,
-    "file.csv",
-    "text/csv",
-    key='download-csv'
-    )
+    "ouptut.csv"
+    ): 
+        st.stop()
