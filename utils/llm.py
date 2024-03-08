@@ -1,11 +1,11 @@
 from openai import OpenAI
 import pandas as pd
 from credentials import credentials
-
+import streamlit as st
 
 def call_openai(prompt, system_message="You are a world class AI assitant."):
     print(f"Running OpenAI request")
-    client = OpenAI(api_key=credentials["opeanai_api_key"])
+    client = OpenAI(api_key=st.secrets["opeanai_api_key"])
 
     message = []
 

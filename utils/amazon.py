@@ -1,6 +1,7 @@
 import requests
 import urllib.parse
 from credentials import credentials
+import streamlit as st
 
 # North America SP API endpoint (from https://developer-docs.amazon.com/sp-api/docs/sp-api-endpoints)
 endpoint = "https://sellingpartnerapi-na.amazon.com"
@@ -15,9 +16,9 @@ def get_token(credentials):
         "https://api.amazon.com/auth/o2/token",
         data={
             "grant_type": "refresh_token",
-            "refresh_token": credentials["refresh_token"],
-            "client_id": credentials["lwa_app_id"],
-            "client_secret": credentials["lwa_client_secret"],
+            "refresh_token": st.secrets["amazon"]["refresh_token"],
+            "client_id": st.secrets["amazon"]["lwa_app_id"],
+            "client_secret": st.secrets["amazon"]["lwa_client_secret"],
         },
     )
     access_token = token_response.json()["access_token"]
