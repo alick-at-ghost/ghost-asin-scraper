@@ -9,7 +9,7 @@ endpoint = "https://sellingpartnerapi-na.amazon.com"
 marketplace_id = "ATVPDKIKX0DER"
 
 
-def get_token(credentials):
+def get_token():
     # Getting the LWA access token using the Seller Central App credentials. The token will be valid for 1 hour until it expires.
     token_response = requests.post(
         "https://api.amazon.com/auth/o2/token",
@@ -25,7 +25,7 @@ def get_token(credentials):
 
 
 def get_items(request_params):
-    access_token = get_token(credentials)
+    access_token = get_token()
     items = requests.get(
         endpoint
         # https://developer-docs.amazon.com/sp-api/docs/catalog-items-api-v2022-04-01-reference#get-catalog2022-04-01items
