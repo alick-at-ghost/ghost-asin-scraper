@@ -1,6 +1,5 @@
 import requests
 import urllib.parse
-from credentials import credentials
 import streamlit as st
 
 # North America SP API endpoint (from https://developer-docs.amazon.com/sp-api/docs/sp-api-endpoints)
