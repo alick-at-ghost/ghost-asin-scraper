@@ -3,3 +3,4 @@
 credentials.py
 data/
 secrets.toml
+utils/__pycache__
